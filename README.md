@@ -35,9 +35,9 @@ Simular el comportamiento básico de un núcleo de sistema operativo mediante la
 
 ## Estado del Proyecto
 
-- [ ] Estructura base del repositorio 
-- [ ] Diseño modular definido  
-- [ ] En desarrollo: implementación de componentes (CPU, memoria, E/S, disco)  
-- [ ] Próximo: integración de CLI y pruebas unitarias  
+- Estructura base del repositorio 
+- Diseño modular definido  
+- En desarrollo: implementación de componentes (CPU, memoria, E/S, disco)  
+- Próximo: integración de CLI y pruebas unitarias  
 
 ---
