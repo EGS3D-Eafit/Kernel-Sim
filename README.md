@@ -1,5 +1,10 @@
 # Kernel-Sim — Núcleo de Sistema Operativo Simulado
 
+## Integrantes
+- Alejandro Jaramillo Rodríguez
+- Athina Cappelletti
+- David Alejandro Ballesteros Jaimes
+
 ## Descripción General
 
 **Kernel-Sim** es una simulación funcional de un **núcleo de sistema operativo simplificado**, desarrollada en **C++**.  
