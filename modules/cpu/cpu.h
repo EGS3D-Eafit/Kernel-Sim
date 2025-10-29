@@ -1,8 +1,13 @@
 #pragma once
-#include <string>
-#include <queue>
+#include "scheduler.h"
 
 class CPU {
+private:
+    Scheduler scheduler;
+    int quantum;
+
 public:
-    void ejecutarProceso(const std::string& nombre);
+    CPU(int q);
+    void agregarProceso(const PCB& proceso);
+    void ejecutarRoundRobin();
 };
