@@ -1,10 +1,14 @@
 #include "cpu.h"
 #include <iostream>
-#include <thread>
-#include <chrono>
 
-void CPU::ejecutarProceso(const std::string& nombre) {
-    std::cout << "Ejecutando proceso: " << nombre << "...\n";
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
-    std::cout << "Proceso " << nombre << " finalizado.\n";
+CPU::CPU(int q) : quantum(q) {}
+
+void CPU::agregarProceso(const PCB& proceso) {
+    scheduler.agregarProceso(new PCB(proceso)); // se pasa una copia dinámica
+}
+
+void CPU::ejecutarRoundRobin() {
+    std::cout << "=== Iniciando ejecución Round Robin ===" << std::endl;
+    scheduler.ejecutar(quantum);
+    std::cout << "=== Ejecución finalizada ===" << std::endl;
 }
