@@ -1,5 +1,9 @@
 #pragma once
 #include "scheduler.h"
+#include "pcb.h"
+
+#ifndef CPU_H
+#define CPU_H
 
 class CPU {
 private:
@@ -8,6 +12,7 @@ private:
 
 public:
     CPU(int q);
-    void agregarProceso(const PCB& proceso);
     void ejecutarRoundRobin();
+    void add_process(PCB * pcb);
 };
+#endif

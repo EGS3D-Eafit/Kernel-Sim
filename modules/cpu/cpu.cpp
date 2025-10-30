@@ -1,10 +1,12 @@
 #include "cpu.h"
+#include "scheduler.h"
+#include "pcb.h"
 #include <iostream>
 
 CPU::CPU(int q) : quantum(q) {}
 
-void CPU::agregarProceso(const PCB& proceso) {
-    scheduler.agregarProceso(new PCB(proceso)); // se pasa una copia dinámica
+void CPU::add_process(PCB* pcb) {
+    scheduler.agregarProceso(pcb);
 }
 
 void CPU::ejecutarRoundRobin() {

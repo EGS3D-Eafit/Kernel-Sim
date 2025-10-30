@@ -1,24 +1,17 @@
 #pragma once
 #include <iostream>
+#include <string>
+
+using namespace std;
 
 class PCB {
 public:
-    int id;
+    string name;
     int tiempoEjecucion;
 
-    PCB(int id, int tiempoEjecucion)
-        : id(id), tiempoEjecucion(tiempoEjecucion) {}
+    PCB(const string &name, int tiempoEjecucion);
 
-    void ejecutar(int quantum) {
-        if (tiempoEjecucion > 0) {
-            int ejecutarAhora = std::min(quantum, tiempoEjecucion);
-            tiempoEjecucion -= ejecutarAhora;
-            std::cout << "Proceso " << id << " ejecuta " << ejecutarAhora 
-                      << " unidades. Restante: " << tiempoEjecucion << std::endl;
-        }
-    }
+    void ejecutar(int quantum);
 
-    bool terminado() const {
-        return tiempoEjecucion <= 0;
-    }
+    bool terminado() const;
 };

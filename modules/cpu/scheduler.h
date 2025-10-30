@@ -1,12 +1,12 @@
 #pragma once
 #include "pcb.h"
-#include <queue>
+#include <deque>
 
 class Scheduler {
-private:
-    std::queue<PCB*> cola;
-
 public:
     void agregarProceso(PCB* proceso);
     void ejecutar(int quantum);
+
+private:
+    std::deque<PCB*> cola;
 };
