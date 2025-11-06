@@ -54,7 +54,7 @@ public:
 private:
     string new_(string n);
     string ls_();
-    string run_(const string& n, CPU s);
+    string run_(const string& n, CPU& s);
     string kill_(const string& n);
 };
 

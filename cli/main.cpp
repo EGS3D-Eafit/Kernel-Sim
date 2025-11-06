@@ -35,7 +35,7 @@ int main() {
 
         if (input == "help") {
             cout << "Comandos disponibles:\n";
-            cout << "  new nombre.ext      - Crear archivo/programa\n";
+            cout << "  new nombre.ext      - Crear archivo/programa [exe, txt]\n";
             cout << "  new nombre          - Crear directorio\n";
             cout << "  ls                  - Listar contenido\n";
             cout << "  edit nombre.ext     - Editar archivo/programa\n";
@@ -46,6 +46,8 @@ int main() {
             cout << "  cd ..               - Subir un nivel\n";
             cout << "  cd /                - Ir a raíz\n";
             cout << "  pwd                 - Mostrar ruta actual\n";
+            cout << "  tick n              - Avanzar n ticks\n";
+            cout << "  ps                  - Mostrar procesos/programas en ejecucion\n";
             cout << "  exit                - Salir\n";
             continue;
         }
@@ -58,6 +60,11 @@ int main() {
         if (input.rfind("cd ", 0) == 0) {
             string path = input.substr(3);
             cout << disk.go_to_path(path) << "\n";
+            continue;
+        }
+
+        if (input == "ps") {
+            cpu.listarProcesos();
             continue;
         }
 
@@ -137,6 +144,13 @@ int main() {
             cout << current->command("kill " + arg, {}) << "\n";
             continue;
         }
+
+        if (input.rfind("tick ", 0) == 0) {
+            string arg = input.substr(5);
+            cpu.ejecutarRoundRobin(stoi(arg)); //Ahora se ejecutara dependiendo de cuantos ticks le ingrese el usuario
+            continue;
+        }
+
 
         cout << "Comando no reconocido. Escribe 'help' para ver opciones.\n";
     }

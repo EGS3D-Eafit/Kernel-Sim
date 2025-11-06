@@ -5,9 +5,9 @@
 PCB::PCB(const string &name, int tiempoEjecucion)
     : name(name), tiempoEjecucion(tiempoEjecucion) {}
 
-void PCB::ejecutar(int quantum) {
+void PCB::ejecutar(int tick) { //Cambio parametro quantum -> tick
     if (tiempoEjecucion > 0) {
-        int ejecutarAhora = min(quantum, tiempoEjecucion);
+        int ejecutarAhora = min(tick, tiempoEjecucion);
         tiempoEjecucion -= ejecutarAhora;
         cout << "Proceso " << name << " ejecuta " << ejecutarAhora
              << " unidades. Restante: " << tiempoEjecucion << endl;

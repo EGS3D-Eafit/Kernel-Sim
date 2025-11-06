@@ -188,20 +188,19 @@ string Directory::ls_() {
     }
 }
 
-string Directory::run_(const string& n, CPU s) {
+string Directory::run_(const string& n, CPU& s) {
     try {
         if (n.empty())
             return "No se a proveeido un nombre de un programa";
         for (Information* info: get<vector<Information*>>(content)) {
             File* file = dynamic_cast<File*>(info);
 
-            if (file != nullptr && file->get_name()+".exe"==n)
+            if (file != nullptr && file->get_name()+".exe"==n) {
                 s.add_process(get<PCB*>(file->get_content()));
-            else
-                return "el proceso dado no existe en el directorio";
+                return "proceso añadido a la cola para correr";
+            }
         }
-        s.ejecutarRoundRobin(); //por ahora que se ejecute directamente
-        return "proceso añadido a la cola para correr";
+        return "el proceso dado no existe en el directorio";
     }catch (const std::exception& e) {
         return "hubo un error";
     }
