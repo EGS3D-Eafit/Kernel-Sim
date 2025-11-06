@@ -1,0 +1,22 @@
+# FIFO con 5/10/15 marcos
+
+mem reset
+mem policy fifo
+mem frames 5
+mem load trace traces/mem_trace_A.txt
+mem run all
+mem dump results/mem/fifo_5.csv
+
+mem reset
+mem policy fifo
+mem frames 10
+mem load trace traces/mem_trace_A.txt
+mem run all
+mem dump results/mem/fifo_10.csv
+
+mem reset
+mem policy fifo
+mem frames 15
+mem load trace traces/mem_trace_A.txt
+mem run all
+mem dump results/mem/fifo_15.csv

@@ -1,0 +1,9 @@
+sched rr
+quantum 5
+new P1 6
+new P2 9
+new P3 4
+new P4 2
+new P5 5
+run 50
+cpu stats results/cpu/rr_q5.csv

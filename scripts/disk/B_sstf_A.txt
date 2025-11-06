@@ -1,0 +1,5 @@
+disk reset
+disk policy sstf
+disk load traces/disk_A.txt
+disk run all
+disk dump results/disk/sstf_A.csv

@@ -1,0 +1,13 @@
+quantum 3
+sched rr
+new P1.exe
+# tiempo ejec
+# (cuando el CLI lo pida, ingresa: 5)
+new P2.exe
+# ingresa: 3
+new P3.exe
+# ingresa: 8
+run 20
+ps
+sched sjf
+# re-crea procesos y compara

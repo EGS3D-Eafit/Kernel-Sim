@@ -1,0 +1,7 @@
+{
+  "files.associations": {
+    "*.html": "html",
+    "xstring": "cpp"
+  },
+  "cmake.sourceDirectory": "C:/Users/ajara/Downloads/Kernel-Sim/Kernel-Sim"
+}

@@ -1,0 +1,21 @@
+mem frames 4
+mem policy fifo
+mem access 1 0
+mem access 1 1
+mem access 2 0
+mem access 3 4
+mem access 1 0
+mem access 2 3
+mem stats
+mem dump mem_fifo.csv
+mem reset
+mem frames 4
+mem policy lru
+mem access 1 0
+mem access 1 1
+mem access 2 0
+mem access 3 4
+mem access 1 0
+mem access 2 3
+mem stats
+mem dump mem_lru.csv

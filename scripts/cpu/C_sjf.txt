@@ -1,0 +1,7 @@
+sched sjf
+quantum 3
+new P1 6
+new P2 9
+new P3 4
+run 50
+cpu stats results/cpu/rr_q3.csv

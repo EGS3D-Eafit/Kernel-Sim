@@ -1,0 +1,45 @@
+# init(cylinders, head)
+disk init 200 50
+# carga de solicitudes
+disk req 82
+disk req 170
+disk req 43
+disk req 140
+disk req 24
+disk req 16
+disk req 190
+disk req 10
+# FCFS
+disk policy fcfs
+disk run
+disk stats
+disk dump out_disk_fcfs.csv
+# misma carga (repetir)
+disk init 200 50
+disk req 82
+disk req 170
+disk req 43
+disk req 140
+disk req 24
+disk req 16
+disk req 190
+disk req 10
+# SSTF
+disk policy sstf
+disk run
+disk stats
+disk dump out_disk_sstf.csv
+# SCAN
+disk init 200 50
+disk req 82
+disk req 170
+disk req 43
+disk req 140
+disk req 24
+disk req 16
+disk req 190
+disk req 10
+disk policy scan
+disk run
+disk stats
+disk dump out_disk_scan.csv

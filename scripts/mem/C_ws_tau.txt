@@ -1,0 +1,9 @@
+# Working Set con tau=20 y 10 marcos
+
+mem reset
+mem policy ws
+mem ws tau 20
+mem frames 10
+mem load trace traces/mem_trace_A.txt
+mem run all
+mem dump results/mem/ws_tau20_f10.csv

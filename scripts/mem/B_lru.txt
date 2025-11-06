@@ -1,0 +1,22 @@
+# LRU con 5/10/15 marcos
+
+mem reset
+mem policy lru
+mem frames 5
+mem load trace traces/mem_trace_A.txt
+mem run all
+mem dump results/mem/lru_5.csv
+
+mem reset
+mem policy lru
+mem frames 10
+mem load trace traces/mem_trace_A.txt
+mem run all
+mem dump results/mem/lru_10.csv
+
+mem reset
+mem policy lru
+mem frames 15
+mem load trace traces/mem_trace_A.txt
+mem run all
+mem dump results/mem/lru_15.csv
