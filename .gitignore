@@ -1,0 +1,7 @@
+build/
+*.o
+*.exe
+*.out
+*.log
+*.tmp
+

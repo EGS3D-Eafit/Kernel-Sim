@@ -1,0 +1,4 @@
+# name,arrival,cpu_burst
+A,0,7
+B,1,3
+C,2,5

@@ -1,0 +1,10 @@
+# frames=24
+# page_size=4
+# repl=FIFO       # FIFO|LRU
+# ws_window=5     # >0 activa working set (versión ligera)
+# ---- trazas: pid page ----
+1 0
+1 1
+2 0
+1 0
+3 2
