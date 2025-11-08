@@ -1,0 +1,3 @@
+C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/build/CMakeFiles/kernel_cli.dir
+C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/build/CMakeFiles/edit_cache.dir
+C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/build/CMakeFiles/rebuild_cache.dir

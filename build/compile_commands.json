@@ -1,0 +1,50 @@
+[
+{
+  "directory": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/kernel_cli.dir/includes_CXX.rsp -g -std=c++20 -o CMakeFiles\\kernel_cli.dir\\cli\\main.cpp.obj -c C:\\Users\\ajara\\OneDrive\\Documentos\\Pruebas\\Kernel-Sim\\cli\\main.cpp",
+  "file": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/cli/main.cpp",
+  "output": "CMakeFiles/kernel_cli.dir/cli/main.cpp.obj"
+},
+{
+  "directory": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/kernel_cli.dir/includes_CXX.rsp -g -std=c++20 -o CMakeFiles\\kernel_cli.dir\\modules\\cpu\\process.cpp.obj -c C:\\Users\\ajara\\OneDrive\\Documentos\\Pruebas\\Kernel-Sim\\modules\\cpu\\process.cpp",
+  "file": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/cpu/process.cpp",
+  "output": "CMakeFiles/kernel_cli.dir/modules/cpu/process.cpp.obj"
+},
+{
+  "directory": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/kernel_cli.dir/includes_CXX.rsp -g -std=c++20 -o CMakeFiles\\kernel_cli.dir\\modules\\cpu\\scheduler.cpp.obj -c C:\\Users\\ajara\\OneDrive\\Documentos\\Pruebas\\Kernel-Sim\\modules\\cpu\\scheduler.cpp",
+  "file": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/cpu/scheduler.cpp",
+  "output": "CMakeFiles/kernel_cli.dir/modules/cpu/scheduler.cpp.obj"
+},
+{
+  "directory": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/kernel_cli.dir/includes_CXX.rsp -g -std=c++20 -o CMakeFiles\\kernel_cli.dir\\modules\\mem\\paging.cpp.obj -c C:\\Users\\ajara\\OneDrive\\Documentos\\Pruebas\\Kernel-Sim\\modules\\mem\\paging.cpp",
+  "file": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/mem/paging.cpp",
+  "output": "CMakeFiles/kernel_cli.dir/modules/mem/paging.cpp.obj"
+},
+{
+  "directory": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/kernel_cli.dir/includes_CXX.rsp -g -std=c++20 -o CMakeFiles\\kernel_cli.dir\\modules\\mem\\allocation.cpp.obj -c C:\\Users\\ajara\\OneDrive\\Documentos\\Pruebas\\Kernel-Sim\\modules\\mem\\allocation.cpp",
+  "file": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/mem/allocation.cpp",
+  "output": "CMakeFiles/kernel_cli.dir/modules/mem/allocation.cpp.obj"
+},
+{
+  "directory": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/kernel_cli.dir/includes_CXX.rsp -g -std=c++20 -o CMakeFiles\\kernel_cli.dir\\modules\\disk\\scheduling.cpp.obj -c C:\\Users\\ajara\\OneDrive\\Documentos\\Pruebas\\Kernel-Sim\\modules\\disk\\scheduling.cpp",
+  "file": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/disk/scheduling.cpp",
+  "output": "CMakeFiles/kernel_cli.dir/modules/disk/scheduling.cpp.obj"
+},
+{
+  "directory": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/kernel_cli.dir/includes_CXX.rsp -g -std=c++20 -o CMakeFiles\\kernel_cli.dir\\modules\\io\\device_queue.cpp.obj -c C:\\Users\\ajara\\OneDrive\\Documentos\\Pruebas\\Kernel-Sim\\modules\\io\\device_queue.cpp",
+  "file": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/io/device_queue.cpp",
+  "output": "CMakeFiles/kernel_cli.dir/modules/io/device_queue.cpp.obj"
+},
+{
+  "directory": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/kernel_cli.dir/includes_CXX.rsp -g -std=c++20 -o CMakeFiles\\kernel_cli.dir\\modules\\io\\printer.cpp.obj -c C:\\Users\\ajara\\OneDrive\\Documentos\\Pruebas\\Kernel-Sim\\modules\\io\\printer.cpp",
+  "file": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/io/printer.cpp",
+  "output": "CMakeFiles/kernel_cli.dir/modules/io/printer.cpp.obj"
+}
+]
