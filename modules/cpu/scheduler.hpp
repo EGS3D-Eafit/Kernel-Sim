@@ -28,6 +28,7 @@ namespace os
         {
             float avg_wait = 0.0f;
             float avg_turnaround = 0.0f;
+            double jain_fairness = 1.0;
         };
 
         // Planificador de CPU

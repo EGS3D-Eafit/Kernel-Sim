@@ -75,7 +75,7 @@ namespace os
             bool block_for(int pid, int ticks);
 
             // Avanza el reloj ‘ticks’ unidades. Despierta procesos por llegada/bloqueo y ejecuta FCFS.
-            void tick(int ticks = 1);
+            void run(int ticks = 1);
 
             // Consulta
             std::optional<PCB> get(int pid) const;
@@ -107,5 +107,5 @@ namespace os
             std::optional<int> running_;         // pid RUNNING si existe
         };
 
-    } // namespace cpu
-} // namespace os
+    }
+}

@@ -154,7 +154,7 @@ namespace os
             return false;
         }
 
-        void ProcessManager::tick(int ticks)
+        void ProcessManager::run(int ticks)
         {
             if (ticks <= 0)
                 return;
@@ -337,5 +337,5 @@ namespace os
             running_.reset();
         }
 
-    } // namespace cpu
-} // namespace os
+    }
+}

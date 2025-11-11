@@ -14,6 +14,8 @@ using namespace std;
 #include "../modules/mem/allocation.hpp"
 #include "../modules/disk/scheduling.hpp"
 #include "../modules/io/printer.hpp"
+#include "../modules/sync/producer_consumer.hpp"
+#include "../modules/sync/philosophers.hpp"
 
 // ====== utilidades CLI (ANSI colores y helpers) ======
 namespace ansi
@@ -39,7 +41,7 @@ static vector<string> split(const string &line)
         out.push_back(tok);
     return out;
 }
-static vector<int> parse_ints(std::span<const string> v)
+static vector<int> parse_ints(const vector<string> &v)
 {
     vector<int> out;
     out.reserve(v.size());
@@ -156,7 +158,7 @@ static void print_help()
   proc resume  <pid>
   proc block   <pid> <ticks>
   proc term    <pid>
-  proc tick    <ticks>
+  proc run     <ticks>
   proc table
   proc queues
 
@@ -179,9 +181,20 @@ static void print_help()
   disk sstf <head_start> <id,arrival,service,cylinder>...
   disk csv  <algo:fcfs|sstf> <out.csv> <head_start> <...igual arriba>
 
+# Sincronización (Productor–Consumidor)
+  sync pc start <prod> <cons> <cap> [prod_ms] [cons_ms] [--quiet]
+  sync pc stat
+  sync pc stop
+
+# Sincronización (Filósofos comensales)
+  sync ph start <n_filosofos> [think_ms] [eat_ms] [--quiet]
+  sync ph stat
+  sync ph stop
+
+
 # Otros
   help
-  exit
+  exit/quit
 )" << "\n";
 }
 
@@ -195,6 +208,12 @@ int main()
     std::setlocale(LC_ALL, ".UTF-8");
 #endif
     using namespace os;
+
+    // Instancia de productor-consumidor para el CLI
+    os::sync::ProducerConsumer pc;
+
+    // Instancia de filósofos de Dining para el CLI
+    os::sync::DiningPhilosophers ph;
 
     // Estado “vivo” del kernel simulado
     cpu::ProcessManager pm;
@@ -217,7 +236,12 @@ int main()
         {
             // ==== salir/ayuda ====
             if (t[0] == "exit" || t[0] == "quit")
+            {
+                ph.stop();
+                pc.stop();
                 break;
+            }
+
             if (t[0] == "help")
             {
                 print_help();
@@ -301,13 +325,13 @@ int main()
                     else
                         print_ok(pm.block_for(stoi(t[2]), stoi(t[3])) ? "bloqueado" : "no se pudo");
                 }
-                else if (sub == "tick")
+                else if (sub == "run")
                 {
                     if (t.size() != 3)
-                        print_err("uso: proc tick <ticks>");
+                        print_err("uso: proc run <ticks>");
                     else
                     {
-                        pm.tick(stoi(t[2]));
+                        pm.run(stoi(t[2]));
                         print_ok("now=" + to_string(pm.now()));
                     }
                 }
@@ -353,7 +377,7 @@ int main()
                         if (!(iss >> id >> arrival >> burst))
                         {
                             print_err("Entrada inválida: usa id,arrival,burst (ej: 1,0,8)");
-                            v.clear(); // evita seguir con datos incompletos
+                            v.clear();
                             break;
                         }
 
@@ -364,7 +388,7 @@ int main()
                             msg << "Datos inválidos para proceso '" << s
                                 << "'. Reglas: id>0, llegada>=0, duracion>0.";
                             print_err(msg.str());
-                            v.clear(); // fuerza no ejecutar el scheduler
+                            v.clear();
                             break;
                         }
 
@@ -379,6 +403,8 @@ int main()
                     {
                         auto stats = cpu::CPUScheduler::sjf_non_preemptive(v);
                         cpu::CPUScheduler::print_table(v, stats);
+                        std::cout << "Fairness (Jain): " << std::fixed << std::setprecision(4)
+                                  << stats.jain_fairness << "\n";
                     }
                 }
 
@@ -441,6 +467,8 @@ int main()
                     {
                         auto stats = cpu::CPUScheduler::round_robin(v, quantum);
                         cpu::CPUScheduler::print_table(v, stats);
+                        std::cout << "Fairness (Jain): " << std::fixed << std::setprecision(4)
+                                  << stats.jain_fairness << "\n";
                     }
                 }
 
@@ -697,6 +725,121 @@ int main()
                     print_err("subcomando disk desconocido");
                 }
                 cout << "os> ";
+                continue;
+            }
+
+            // ==== Sincronización: productor–consumidor ====
+            if (t[0] == "sync")
+            {
+                if (t.size() < 2)
+                {
+                    print_err("uso: sync pc <start|stat|stop> ...");
+                    std::cout << "os> ";
+                    continue;
+                }
+                if (t[1] != "pc")
+                {
+                    print_err("solo 'pc' está soportado por ahora");
+                    std::cout << "os> ";
+                    continue;
+                }
+                // subcomandos: start / stat / stop
+                if (t.size() >= 3 && t[2] == "start")
+                {
+                    if (t.size() < 6)
+                    {
+                        print_err("uso: sync pc start <prod> <cons> <cap> [prod_ms] [cons_ms] [--quiet]");
+                        std::cout << "os> ";
+                        continue;
+                    }
+                    std::size_t prod = std::stoul(t[3]);
+                    std::size_t cons = std::stoul(t[4]);
+                    std::size_t cap = std::stoul(t[5]);
+
+                    // opcionales
+                    int prod_ms = (t.size() >= 7 ? std::stoi(t[6]) : 100);
+                    int cons_ms = (t.size() >= 8 ? std::stoi(t[7]) : 150);
+                    bool verbose = true;
+                    for (size_t i = 6; i < t.size(); ++i)
+                    {
+                        if (t[i] == "--quiet")
+                        {
+                            verbose = false;
+                            break;
+                        }
+                    }
+
+                    pc.start(prod, cons, cap, os::sync::ms(prod_ms), os::sync::ms(cons_ms), verbose);
+                    print_ok("productor–consumidor iniciado");
+                    std::cout << "os> ";
+                    continue;
+                }
+                if (t.size() >= 3 && t[2] == "stat")
+                {
+                    auto s = pc.stats();
+                    std::cout << "produced=" << s.produced
+                              << "  consumed=" << s.consumed
+                              << "  max_buffer=" << s.max_buffer
+                              << "  last_item=" << s.last_item << "\n";
+                    std::cout << "running=" << (pc.running() ? "yes" : "no") << "\n";
+                    std::cout << "os> ";
+                    continue;
+                }
+                if (t.size() >= 3 && t[2] == "stop")
+                {
+                    pc.stop();
+                    print_ok("productor–consumidor detenido");
+                    std::cout << "os> ";
+                    continue;
+                }
+                print_err("uso: sync pc <start|stat|stop>");
+                std::cout << "os> ";
+                continue;
+            }
+
+            // ==== Sincronización: filósofos comensales ====
+            if (t[0] == "sync" && t.size() >= 2 && t[1] == "ph")
+            {
+                if (t.size() >= 3 && t[2] == "start")
+                {
+                    if (t.size() < 4)
+                    {
+                        print_err("uso: sync ph start <n_filosofos> [think_ms] [eat_ms] [--quiet]");
+                        std::cout << "os> ";
+                        continue;
+                    }
+                    std::size_t n = std::stoul(t[3]);
+                    int think_ms = (t.size() >= 5 ? std::stoi(t[4]) : 500);
+                    int eat_ms = (t.size() >= 6 ? std::stoi(t[5]) : 1000);
+                    bool verbose = true;
+                    for (size_t i = 4; i < t.size(); ++i)
+                        if (t[i] == "--quiet")
+                        {
+                            verbose = false;
+                            break;
+                        }
+
+                    ph.start(n, os::sync::ms(think_ms), os::sync::ms(eat_ms), verbose);
+                    print_ok("filósofos iniciados");
+                    std::cout << "os> ";
+                    continue;
+                }
+                if (t.size() >= 3 && t[2] == "stat")
+                {
+                    std::cout << "running=" << (ph.running() ? "yes" : "no")
+                              << "  n=" << ph.size() << "\n";
+                    std::cout << "os> ";
+                    continue;
+                }
+                if (t.size() >= 3 && t[2] == "stop")
+                {
+                    ph.stop();
+                    print_ok("filósofos detenidos");
+                    std::cout << "os> ";
+                    continue;
+                }
+                print_err("uso: sync ph <start|stat|stop>");
+                std::cout << "os> ";
                 continue;
             }
 

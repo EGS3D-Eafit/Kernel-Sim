@@ -147,11 +147,17 @@ namespace os
             st.frame_table.reserve(st.steps);
             st.fault_flags.reserve(st.steps);
             st.frames_per_step.reserve(st.steps);
+            st.window_faults.assign(st.steps, 0);
 
             int marcos_asignados = p.frames_init;
             std::vector<std::optional<int>> frames_vec(marcos_asignados, std::nullopt);
             std::unordered_set<int> in_mem;
             std::deque<int> fifo_order;
+
+            // Ventana deslizante de fallos (1 si fault en paso t, 0 si hit)
+            std::deque<int> win;
+            int rolling_faults = 0; // suma de la ventana
+            const int W = std::max(1, p.window_size);
 
             auto has_free_slot = [&]() -> int
             {
@@ -161,28 +167,28 @@ namespace os
                 return -1;
             };
 
-            std::deque<int> ventana_idx;
-            auto recalc_recent_faults = [&](int t) -> int
-            {
-                std::unordered_set<int> vistos;
-                int fallos = 0;
-                for (int k = (int)ventana_idx.size() - 1; k >= 0; --k)
-                {
-                    int j = ventana_idx[k];
-                    int pag = pages[j];
-                    if (vistos.insert(pag).second)
-                    {
-                        if (!in_mem.count(pag))
-                            ++fallos;
-                    }
-                }
-                return fallos;
-            };
-
             for (int t = 0; t < st.steps; ++t)
             {
                 int page = pages[t];
                 bool hit = in_mem.count(page) > 0;
+
+                // contabilizar hits/faults y marcar flag del paso
+                if (hit)
+                    st.hits++;
+                else
+                    st.faults++;
+                st.fault_flags.push_back(!hit);
+
+                // actualizar ventana deslizante y PFF puntual
+                int inc = (!hit ? 1 : 0);
+                win.push_back(inc);
+                rolling_faults += inc;
+                if ((int)win.size() > W)
+                {
+                    rolling_faults -= win.front();
+                    win.pop_front();
+                }
+                st.window_faults[t] = rolling_faults; // <-- PFF puntual visible
 
                 if (!hit)
                 {
@@ -212,26 +218,16 @@ namespace os
                         fifo_order.push_back(page);
                     }
                 }
-                else
-                {
-                    st.hits++;
-                }
-
-                ventana_idx.push_back(t);
-                while ((int)ventana_idx.size() > p.window_size)
-                    ventana_idx.pop_front();
-
-                int fallos_recientes = recalc_recent_faults(t);
 
                 // Ajuste de marcos
-                if (fallos_recientes >= p.fault_thresh && marcos_asignados < p.frames_max)
+                if (rolling_faults >= p.fault_thresh && marcos_asignados < p.frames_max)
                 {
                     marcos_asignados += 1;
                     frames_vec.resize(marcos_asignados, std::nullopt);
                 }
-                else if (fallos_recientes == 0 && marcos_asignados > p.frames_min)
+                else if (rolling_faults == 0 && marcos_asignados > 1)
                 {
-                    bool top_empty = frames_vec.back().has_value() == false;
+                    bool top_empty = !frames_vec.back().has_value();
                     if (!top_empty)
                     {
                         int victim = fifo_order.front();
@@ -252,9 +248,7 @@ namespace os
 
                 st.max_frames_observed = std::max(st.max_frames_observed, marcos_asignados);
                 st.frames_per_step.push_back(marcos_asignados);
-
                 st.frame_table.push_back(resize_snapshot(frames_vec, st.max_frames_observed));
-                st.fault_flags.push_back(!hit);
             }
 
             for (auto &col : st.frame_table)
@@ -326,12 +320,14 @@ namespace os
             std::ofstream tl(timeline_csv_path);
             if (!tl.is_open())
                 return false;
+
             tl << "step";
             for (int f = 0; f < F; ++f)
                 tl << ",frame_" << f;
             if (!s.frames_per_step.empty())
                 tl << ",frames_used";
             tl << "\n";
+
             for (int t = 0; t < s.steps; ++t)
             {
                 tl << t;
@@ -354,23 +350,29 @@ namespace os
             std::ofstream ev(events_csv_path);
             if (!ev.is_open())
                 return false;
+
             ev << "step,page,hit,fault";
             if (!s.frames_per_step.empty())
                 ev << ",frames_used";
-            ev << "\n";
+            ev << ",faults_window\n";
+
             for (int t = 0; t < s.steps; ++t)
             {
                 int page = s.ref_string[t];
                 bool fault = s.fault_flags[t];
                 bool hit = !fault;
+
                 ev << t << "," << page << "," << (hit ? 1 : 0) << "," << (fault ? 1 : 0);
                 if (!s.frames_per_step.empty())
                     ev << "," << s.frames_per_step[t];
-                ev << "\n";
+
+                // Valor del PFF puntual (fallos en la ventana que termina en t)
+                const int fw = (t < (int)s.window_faults.size() ? s.window_faults[t] : 0);
+                ev << "," << fw << "\n";
             }
             ev.close();
             return true;
         }
 
-    } // namespace mem
-} // namespace os
+    }
+}

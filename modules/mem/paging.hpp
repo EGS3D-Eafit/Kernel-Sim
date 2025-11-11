@@ -39,6 +39,9 @@ namespace os
             // Solo PFF: cantidad de marcos usados en cada paso y máximo observado.
             std::vector<int> frames_per_step; // len = steps
             int max_frames_observed = 0;
+
+            // PFF puntual (fallos por ventana que termina en t)
+            std::vector<int> window_faults; // size == steps, solo se llena en PFF
         };
 
         struct PFFParams
