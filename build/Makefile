@@ -296,6 +296,30 @@ modules/mem/allocation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\kernel_cli.dir\build.make CMakeFiles/kernel_cli.dir/modules/mem/allocation.cpp.s
 .PHONY : modules/mem/allocation.cpp.s
 
+modules/mem/heap.obj: modules/mem/heap.cpp.obj
+.PHONY : modules/mem/heap.obj
+
+# target to build an object file
+modules/mem/heap.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\kernel_cli.dir\build.make CMakeFiles/kernel_cli.dir/modules/mem/heap.cpp.obj
+.PHONY : modules/mem/heap.cpp.obj
+
+modules/mem/heap.i: modules/mem/heap.cpp.i
+.PHONY : modules/mem/heap.i
+
+# target to preprocess a source file
+modules/mem/heap.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\kernel_cli.dir\build.make CMakeFiles/kernel_cli.dir/modules/mem/heap.cpp.i
+.PHONY : modules/mem/heap.cpp.i
+
+modules/mem/heap.s: modules/mem/heap.cpp.s
+.PHONY : modules/mem/heap.s
+
+# target to generate assembly for a file
+modules/mem/heap.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\kernel_cli.dir\build.make CMakeFiles/kernel_cli.dir/modules/mem/heap.cpp.s
+.PHONY : modules/mem/heap.cpp.s
+
 modules/mem/paging.obj: modules/mem/paging.cpp.obj
 .PHONY : modules/mem/paging.obj
 
@@ -319,6 +343,54 @@ modules/mem/paging.s: modules/mem/paging.cpp.s
 modules/mem/paging.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\kernel_cli.dir\build.make CMakeFiles/kernel_cli.dir/modules/mem/paging.cpp.s
 .PHONY : modules/mem/paging.cpp.s
+
+modules/sync/philosophers.obj: modules/sync/philosophers.cpp.obj
+.PHONY : modules/sync/philosophers.obj
+
+# target to build an object file
+modules/sync/philosophers.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\kernel_cli.dir\build.make CMakeFiles/kernel_cli.dir/modules/sync/philosophers.cpp.obj
+.PHONY : modules/sync/philosophers.cpp.obj
+
+modules/sync/philosophers.i: modules/sync/philosophers.cpp.i
+.PHONY : modules/sync/philosophers.i
+
+# target to preprocess a source file
+modules/sync/philosophers.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\kernel_cli.dir\build.make CMakeFiles/kernel_cli.dir/modules/sync/philosophers.cpp.i
+.PHONY : modules/sync/philosophers.cpp.i
+
+modules/sync/philosophers.s: modules/sync/philosophers.cpp.s
+.PHONY : modules/sync/philosophers.s
+
+# target to generate assembly for a file
+modules/sync/philosophers.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\kernel_cli.dir\build.make CMakeFiles/kernel_cli.dir/modules/sync/philosophers.cpp.s
+.PHONY : modules/sync/philosophers.cpp.s
+
+modules/sync/producer_consumer.obj: modules/sync/producer_consumer.cpp.obj
+.PHONY : modules/sync/producer_consumer.obj
+
+# target to build an object file
+modules/sync/producer_consumer.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\kernel_cli.dir\build.make CMakeFiles/kernel_cli.dir/modules/sync/producer_consumer.cpp.obj
+.PHONY : modules/sync/producer_consumer.cpp.obj
+
+modules/sync/producer_consumer.i: modules/sync/producer_consumer.cpp.i
+.PHONY : modules/sync/producer_consumer.i
+
+# target to preprocess a source file
+modules/sync/producer_consumer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\kernel_cli.dir\build.make CMakeFiles/kernel_cli.dir/modules/sync/producer_consumer.cpp.i
+.PHONY : modules/sync/producer_consumer.cpp.i
+
+modules/sync/producer_consumer.s: modules/sync/producer_consumer.cpp.s
+.PHONY : modules/sync/producer_consumer.s
+
+# target to generate assembly for a file
+modules/sync/producer_consumer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\kernel_cli.dir\build.make CMakeFiles/kernel_cli.dir/modules/sync/producer_consumer.cpp.s
+.PHONY : modules/sync/producer_consumer.cpp.s
 
 # Help Target
 help:
@@ -350,9 +422,18 @@ help:
 	@echo ... modules/mem/allocation.obj
 	@echo ... modules/mem/allocation.i
 	@echo ... modules/mem/allocation.s
+	@echo ... modules/mem/heap.obj
+	@echo ... modules/mem/heap.i
+	@echo ... modules/mem/heap.s
 	@echo ... modules/mem/paging.obj
 	@echo ... modules/mem/paging.i
 	@echo ... modules/mem/paging.s
+	@echo ... modules/sync/philosophers.obj
+	@echo ... modules/sync/philosophers.i
+	@echo ... modules/sync/philosophers.s
+	@echo ... modules/sync/producer_consumer.obj
+	@echo ... modules/sync/producer_consumer.i
+	@echo ... modules/sync/producer_consumer.s
 .PHONY : help
 
 

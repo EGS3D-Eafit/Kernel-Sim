@@ -1,0 +1,14 @@
+# DISCO — FCFS vs SSTF (trayecto y movimiento total)
+
+# Estructura del comando: disk <fcfs|sstf> <head_start> <id,arrival,service,cylinder> 
+
+# Para usar csv: disk csv  <fcfs|sstf> <nombre_archivo.csv> <head_start> <id,arrival,service,cylinder>
+
+
+# Copia y pega los siguientes comandos cuando ejecutes el programa:
+
+# FCFS
+disk csv fcfs prueba.csv 50  P1,0,4,95  P2,0,5,180  P3,0,3,34  P4,0,4,119  P5,0,5,11  P6,0,4,123  P7,0,2,62  P8,0,3,64
+
+# SSTF
+disk csv sstf prueba2.csv 50  P1,0,4,95  P2,0,5,180  P3,0,3,34  P4,0,4,119  P5,0,5,11  P6,0,4,123  P7,0,2,62  P8,0,3,64

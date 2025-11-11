@@ -31,6 +31,12 @@
 },
 {
   "directory": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/kernel_cli.dir/includes_CXX.rsp -g -std=c++20 -o CMakeFiles\\kernel_cli.dir\\modules\\mem\\heap.cpp.obj -c C:\\Users\\ajara\\OneDrive\\Documentos\\Pruebas\\Kernel-Sim\\modules\\mem\\heap.cpp",
+  "file": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/mem/heap.cpp",
+  "output": "CMakeFiles/kernel_cli.dir/modules/mem/heap.cpp.obj"
+},
+{
+  "directory": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/build",
   "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/kernel_cli.dir/includes_CXX.rsp -g -std=c++20 -o CMakeFiles\\kernel_cli.dir\\modules\\disk\\scheduling.cpp.obj -c C:\\Users\\ajara\\OneDrive\\Documentos\\Pruebas\\Kernel-Sim\\modules\\disk\\scheduling.cpp",
   "file": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/disk/scheduling.cpp",
   "output": "CMakeFiles/kernel_cli.dir/modules/disk/scheduling.cpp.obj"
@@ -46,5 +52,17 @@
   "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/kernel_cli.dir/includes_CXX.rsp -g -std=c++20 -o CMakeFiles\\kernel_cli.dir\\modules\\io\\printer.cpp.obj -c C:\\Users\\ajara\\OneDrive\\Documentos\\Pruebas\\Kernel-Sim\\modules\\io\\printer.cpp",
   "file": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/io/printer.cpp",
   "output": "CMakeFiles/kernel_cli.dir/modules/io/printer.cpp.obj"
+},
+{
+  "directory": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/kernel_cli.dir/includes_CXX.rsp -g -std=c++20 -o CMakeFiles\\kernel_cli.dir\\modules\\sync\\producer_consumer.cpp.obj -c C:\\Users\\ajara\\OneDrive\\Documentos\\Pruebas\\Kernel-Sim\\modules\\sync\\producer_consumer.cpp",
+  "file": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/sync/producer_consumer.cpp",
+  "output": "CMakeFiles/kernel_cli.dir/modules/sync/producer_consumer.cpp.obj"
+},
+{
+  "directory": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe  @CMakeFiles/kernel_cli.dir/includes_CXX.rsp -g -std=c++20 -o CMakeFiles\\kernel_cli.dir\\modules\\sync\\philosophers.cpp.obj -c C:\\Users\\ajara\\OneDrive\\Documentos\\Pruebas\\Kernel-Sim\\modules\\sync\\philosophers.cpp",
+  "file": "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/sync/philosophers.cpp",
+  "output": "CMakeFiles/kernel_cli.dir/modules/sync/philosophers.cpp.obj"
 }
 ]

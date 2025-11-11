@@ -1,0 +1,72 @@
+# --- Compilación / binarios ---
+/build/
+/bin/
+/out/
+/dist/
+/Debug/
+/Release/
+/CMakeFiles/
+/CMakeCache.txt
+/Makefile
+/*.exe
+/*.out
+/*.a
+/*.lib
+/*.dll
+/*.so
+/*.dylib
+/*.obj
+/*.o
+/*.pch
+/*.pdb
+/*.log
+
+# --- Archivos temporales / intermedios ---
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+*.old
+*.orig
+*.lock
+
+# --- CSV / resultados generados ---
+*.csv
+*.dat
+*.log
+*.trace
+
+# --- Notebooks / análisis ---
+*.ipynb_checkpoints/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env/
+.venv/
+venv/
+.envrc
+.env.local
+.DS_Store
+
+# --- Documentos exportados ---
+/results/
+/reports/
+/plots/
+/figures/
+/docs/generated/
+/notebooks/output/
+
+# --- Archivos del IDE ---
+.vscode/
+.idea/
+*.code-workspace
+*.sublime-project
+*.sublime-workspace
+
+# --- Sistema operativo ---
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+Icon?

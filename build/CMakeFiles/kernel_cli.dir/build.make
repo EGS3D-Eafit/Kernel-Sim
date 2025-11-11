@@ -146,11 +146,26 @@ CMakeFiles/kernel_cli.dir/modules/mem/allocation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/kernel_cli.dir/modules/mem/allocation.cpp.s"
 	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\modules\mem\allocation.cpp -o CMakeFiles\kernel_cli.dir\modules\mem\allocation.cpp.s
 
+CMakeFiles/kernel_cli.dir/modules/mem/heap.cpp.obj: CMakeFiles/kernel_cli.dir/flags.make
+CMakeFiles/kernel_cli.dir/modules/mem/heap.cpp.obj: CMakeFiles/kernel_cli.dir/includes_CXX.rsp
+CMakeFiles/kernel_cli.dir/modules/mem/heap.cpp.obj: C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/mem/heap.cpp
+CMakeFiles/kernel_cli.dir/modules/mem/heap.cpp.obj: CMakeFiles/kernel_cli.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/kernel_cli.dir/modules/mem/heap.cpp.obj"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/kernel_cli.dir/modules/mem/heap.cpp.obj -MF CMakeFiles\kernel_cli.dir\modules\mem\heap.cpp.obj.d -o CMakeFiles\kernel_cli.dir\modules\mem\heap.cpp.obj -c C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\modules\mem\heap.cpp
+
+CMakeFiles/kernel_cli.dir/modules/mem/heap.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/kernel_cli.dir/modules/mem/heap.cpp.i"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\modules\mem\heap.cpp > CMakeFiles\kernel_cli.dir\modules\mem\heap.cpp.i
+
+CMakeFiles/kernel_cli.dir/modules/mem/heap.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/kernel_cli.dir/modules/mem/heap.cpp.s"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\modules\mem\heap.cpp -o CMakeFiles\kernel_cli.dir\modules\mem\heap.cpp.s
+
 CMakeFiles/kernel_cli.dir/modules/disk/scheduling.cpp.obj: CMakeFiles/kernel_cli.dir/flags.make
 CMakeFiles/kernel_cli.dir/modules/disk/scheduling.cpp.obj: CMakeFiles/kernel_cli.dir/includes_CXX.rsp
 CMakeFiles/kernel_cli.dir/modules/disk/scheduling.cpp.obj: C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/disk/scheduling.cpp
 CMakeFiles/kernel_cli.dir/modules/disk/scheduling.cpp.obj: CMakeFiles/kernel_cli.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/kernel_cli.dir/modules/disk/scheduling.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/kernel_cli.dir/modules/disk/scheduling.cpp.obj"
 	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/kernel_cli.dir/modules/disk/scheduling.cpp.obj -MF CMakeFiles\kernel_cli.dir\modules\disk\scheduling.cpp.obj.d -o CMakeFiles\kernel_cli.dir\modules\disk\scheduling.cpp.obj -c C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\modules\disk\scheduling.cpp
 
 CMakeFiles/kernel_cli.dir/modules/disk/scheduling.cpp.i: cmake_force
@@ -165,7 +180,7 @@ CMakeFiles/kernel_cli.dir/modules/io/device_queue.cpp.obj: CMakeFiles/kernel_cli
 CMakeFiles/kernel_cli.dir/modules/io/device_queue.cpp.obj: CMakeFiles/kernel_cli.dir/includes_CXX.rsp
 CMakeFiles/kernel_cli.dir/modules/io/device_queue.cpp.obj: C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/io/device_queue.cpp
 CMakeFiles/kernel_cli.dir/modules/io/device_queue.cpp.obj: CMakeFiles/kernel_cli.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/kernel_cli.dir/modules/io/device_queue.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/kernel_cli.dir/modules/io/device_queue.cpp.obj"
 	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/kernel_cli.dir/modules/io/device_queue.cpp.obj -MF CMakeFiles\kernel_cli.dir\modules\io\device_queue.cpp.obj.d -o CMakeFiles\kernel_cli.dir\modules\io\device_queue.cpp.obj -c C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\modules\io\device_queue.cpp
 
 CMakeFiles/kernel_cli.dir/modules/io/device_queue.cpp.i: cmake_force
@@ -180,7 +195,7 @@ CMakeFiles/kernel_cli.dir/modules/io/printer.cpp.obj: CMakeFiles/kernel_cli.dir/
 CMakeFiles/kernel_cli.dir/modules/io/printer.cpp.obj: CMakeFiles/kernel_cli.dir/includes_CXX.rsp
 CMakeFiles/kernel_cli.dir/modules/io/printer.cpp.obj: C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/io/printer.cpp
 CMakeFiles/kernel_cli.dir/modules/io/printer.cpp.obj: CMakeFiles/kernel_cli.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/kernel_cli.dir/modules/io/printer.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/kernel_cli.dir/modules/io/printer.cpp.obj"
 	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/kernel_cli.dir/modules/io/printer.cpp.obj -MF CMakeFiles\kernel_cli.dir\modules\io\printer.cpp.obj.d -o CMakeFiles\kernel_cli.dir\modules\io\printer.cpp.obj -c C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\modules\io\printer.cpp
 
 CMakeFiles/kernel_cli.dir/modules/io/printer.cpp.i: cmake_force
@@ -191,6 +206,36 @@ CMakeFiles/kernel_cli.dir/modules/io/printer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/kernel_cli.dir/modules/io/printer.cpp.s"
 	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\modules\io\printer.cpp -o CMakeFiles\kernel_cli.dir\modules\io\printer.cpp.s
 
+CMakeFiles/kernel_cli.dir/modules/sync/producer_consumer.cpp.obj: CMakeFiles/kernel_cli.dir/flags.make
+CMakeFiles/kernel_cli.dir/modules/sync/producer_consumer.cpp.obj: CMakeFiles/kernel_cli.dir/includes_CXX.rsp
+CMakeFiles/kernel_cli.dir/modules/sync/producer_consumer.cpp.obj: C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/sync/producer_consumer.cpp
+CMakeFiles/kernel_cli.dir/modules/sync/producer_consumer.cpp.obj: CMakeFiles/kernel_cli.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/kernel_cli.dir/modules/sync/producer_consumer.cpp.obj"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/kernel_cli.dir/modules/sync/producer_consumer.cpp.obj -MF CMakeFiles\kernel_cli.dir\modules\sync\producer_consumer.cpp.obj.d -o CMakeFiles\kernel_cli.dir\modules\sync\producer_consumer.cpp.obj -c C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\modules\sync\producer_consumer.cpp
+
+CMakeFiles/kernel_cli.dir/modules/sync/producer_consumer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/kernel_cli.dir/modules/sync/producer_consumer.cpp.i"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\modules\sync\producer_consumer.cpp > CMakeFiles\kernel_cli.dir\modules\sync\producer_consumer.cpp.i
+
+CMakeFiles/kernel_cli.dir/modules/sync/producer_consumer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/kernel_cli.dir/modules/sync/producer_consumer.cpp.s"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\modules\sync\producer_consumer.cpp -o CMakeFiles\kernel_cli.dir\modules\sync\producer_consumer.cpp.s
+
+CMakeFiles/kernel_cli.dir/modules/sync/philosophers.cpp.obj: CMakeFiles/kernel_cli.dir/flags.make
+CMakeFiles/kernel_cli.dir/modules/sync/philosophers.cpp.obj: CMakeFiles/kernel_cli.dir/includes_CXX.rsp
+CMakeFiles/kernel_cli.dir/modules/sync/philosophers.cpp.obj: C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/sync/philosophers.cpp
+CMakeFiles/kernel_cli.dir/modules/sync/philosophers.cpp.obj: CMakeFiles/kernel_cli.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/kernel_cli.dir/modules/sync/philosophers.cpp.obj"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/kernel_cli.dir/modules/sync/philosophers.cpp.obj -MF CMakeFiles\kernel_cli.dir\modules\sync\philosophers.cpp.obj.d -o CMakeFiles\kernel_cli.dir\modules\sync\philosophers.cpp.obj -c C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\modules\sync\philosophers.cpp
+
+CMakeFiles/kernel_cli.dir/modules/sync/philosophers.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/kernel_cli.dir/modules/sync/philosophers.cpp.i"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\modules\sync\philosophers.cpp > CMakeFiles\kernel_cli.dir\modules\sync\philosophers.cpp.i
+
+CMakeFiles/kernel_cli.dir/modules/sync/philosophers.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/kernel_cli.dir/modules/sync/philosophers.cpp.s"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\modules\sync\philosophers.cpp -o CMakeFiles\kernel_cli.dir\modules\sync\philosophers.cpp.s
+
 # Object files for target kernel_cli
 kernel_cli_OBJECTS = \
 "CMakeFiles/kernel_cli.dir/cli/main.cpp.obj" \
@@ -198,9 +243,12 @@ kernel_cli_OBJECTS = \
 "CMakeFiles/kernel_cli.dir/modules/cpu/scheduler.cpp.obj" \
 "CMakeFiles/kernel_cli.dir/modules/mem/paging.cpp.obj" \
 "CMakeFiles/kernel_cli.dir/modules/mem/allocation.cpp.obj" \
+"CMakeFiles/kernel_cli.dir/modules/mem/heap.cpp.obj" \
 "CMakeFiles/kernel_cli.dir/modules/disk/scheduling.cpp.obj" \
 "CMakeFiles/kernel_cli.dir/modules/io/device_queue.cpp.obj" \
-"CMakeFiles/kernel_cli.dir/modules/io/printer.cpp.obj"
+"CMakeFiles/kernel_cli.dir/modules/io/printer.cpp.obj" \
+"CMakeFiles/kernel_cli.dir/modules/sync/producer_consumer.cpp.obj" \
+"CMakeFiles/kernel_cli.dir/modules/sync/philosophers.cpp.obj"
 
 # External object files for target kernel_cli
 kernel_cli_EXTERNAL_OBJECTS =
@@ -210,14 +258,17 @@ kernel_cli.exe: CMakeFiles/kernel_cli.dir/modules/cpu/process.cpp.obj
 kernel_cli.exe: CMakeFiles/kernel_cli.dir/modules/cpu/scheduler.cpp.obj
 kernel_cli.exe: CMakeFiles/kernel_cli.dir/modules/mem/paging.cpp.obj
 kernel_cli.exe: CMakeFiles/kernel_cli.dir/modules/mem/allocation.cpp.obj
+kernel_cli.exe: CMakeFiles/kernel_cli.dir/modules/mem/heap.cpp.obj
 kernel_cli.exe: CMakeFiles/kernel_cli.dir/modules/disk/scheduling.cpp.obj
 kernel_cli.exe: CMakeFiles/kernel_cli.dir/modules/io/device_queue.cpp.obj
 kernel_cli.exe: CMakeFiles/kernel_cli.dir/modules/io/printer.cpp.obj
+kernel_cli.exe: CMakeFiles/kernel_cli.dir/modules/sync/producer_consumer.cpp.obj
+kernel_cli.exe: CMakeFiles/kernel_cli.dir/modules/sync/philosophers.cpp.obj
 kernel_cli.exe: CMakeFiles/kernel_cli.dir/build.make
 kernel_cli.exe: CMakeFiles/kernel_cli.dir/linkLibs.rsp
 kernel_cli.exe: CMakeFiles/kernel_cli.dir/objects1.rsp
 kernel_cli.exe: CMakeFiles/kernel_cli.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable kernel_cli.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\ajara\OneDrive\Documentos\Pruebas\Kernel-Sim\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable kernel_cli.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\kernel_cli.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

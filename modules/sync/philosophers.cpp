@@ -9,33 +9,60 @@ namespace os
         {
             stop(); // reiniciar si estaba corriendo
 
-            forks_.assign(n, std::mutex{});
+            if (n == 0)
+            {
+                // nada que hacer
+                return;
+            }
+
+            {
+                std::vector<std::mutex> fresh(n);
+                forks_.swap(fresh);
+            }
+
             running_ = true;
 
+            threads_.clear();
             threads_.reserve(n);
             for (std::size_t i = 0; i < n; ++i)
             {
-                threads_.emplace_back(&DiningPhilosophers::philosopher_loop, this, i, think, eat, verbose);
+                threads_.emplace_back(&DiningPhilosophers::philosopher_loop,
+                                      this, i, think, eat, verbose);
             }
         }
 
         void DiningPhilosophers::stop()
         {
             if (!running_)
+            {
+                // Aun así, aseguremos limpieza si quedaran hilos
+                for (auto &t : threads_)
+                    if (t.joinable())
+                        t.join();
+                threads_.clear();
+                forks_.clear();
                 return;
+            }
+
             running_ = false;
-            // No hay CV aquí; la salida ocurre tras el siguiente sleep/iteración
+
             for (auto &t : threads_)
+            {
                 if (t.joinable())
                     t.join();
+            }
             threads_.clear();
-            forks_.clear();
+
+            // Liberar todos los mutex reconstruyendo el contenedor
+            std::vector<std::mutex> empty;
+            forks_.swap(empty);
         }
 
         void DiningPhilosophers::philosopher_loop(std::size_t id, ms think, ms eat, bool verbose)
         {
-            auto left = id;
-            auto right = (id + 1) % forks_.size();
+            const auto N = forks_.size();
+            const auto left = id % N;
+            const auto right = (id + 1) % N;
 
             while (running_)
             {
@@ -43,7 +70,8 @@ namespace os
                     std::cout << "[Φ" << id << "] pensando...\n";
                 std::this_thread::sleep_for(think);
 
-                if (id % 2 == 0)
+                // Orden alternado para reducir riesgo de interbloqueo:
+                if ((id & 1u) == 0u)
                 {
                     forks_[left].lock();
                     forks_[right].lock();

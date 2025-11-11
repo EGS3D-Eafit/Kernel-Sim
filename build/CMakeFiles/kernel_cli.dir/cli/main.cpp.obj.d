@@ -575,4 +575,8 @@ CMakeFiles/kernel_cli.dir/cli/main.cpp.obj: \
  C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/mem/paging.hpp \
  C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/mem/allocation.hpp \
  C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/disk/scheduling.hpp \
- C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/io/printer.hpp
+ C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/io/printer.hpp \
+ C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/sync/producer_consumer.hpp \
+ C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/common/common.hpp \
+ C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/sync/philosophers.hpp \
+ C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/mem/heap.hpp

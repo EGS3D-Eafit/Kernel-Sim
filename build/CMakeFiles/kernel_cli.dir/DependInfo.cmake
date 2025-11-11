@@ -15,7 +15,10 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/io/device_queue.cpp" "CMakeFiles/kernel_cli.dir/modules/io/device_queue.cpp.obj" "gcc" "CMakeFiles/kernel_cli.dir/modules/io/device_queue.cpp.obj.d"
   "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/io/printer.cpp" "CMakeFiles/kernel_cli.dir/modules/io/printer.cpp.obj" "gcc" "CMakeFiles/kernel_cli.dir/modules/io/printer.cpp.obj.d"
   "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/mem/allocation.cpp" "CMakeFiles/kernel_cli.dir/modules/mem/allocation.cpp.obj" "gcc" "CMakeFiles/kernel_cli.dir/modules/mem/allocation.cpp.obj.d"
+  "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/mem/heap.cpp" "CMakeFiles/kernel_cli.dir/modules/mem/heap.cpp.obj" "gcc" "CMakeFiles/kernel_cli.dir/modules/mem/heap.cpp.obj.d"
   "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/mem/paging.cpp" "CMakeFiles/kernel_cli.dir/modules/mem/paging.cpp.obj" "gcc" "CMakeFiles/kernel_cli.dir/modules/mem/paging.cpp.obj.d"
+  "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/sync/philosophers.cpp" "CMakeFiles/kernel_cli.dir/modules/sync/philosophers.cpp.obj" "gcc" "CMakeFiles/kernel_cli.dir/modules/sync/philosophers.cpp.obj.d"
+  "C:/Users/ajara/OneDrive/Documentos/Pruebas/Kernel-Sim/modules/sync/producer_consumer.cpp" "CMakeFiles/kernel_cli.dir/modules/sync/producer_consumer.cpp.obj" "gcc" "CMakeFiles/kernel_cli.dir/modules/sync/producer_consumer.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

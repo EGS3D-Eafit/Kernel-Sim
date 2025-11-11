@@ -16,6 +16,7 @@ using namespace std;
 #include "../modules/io/printer.hpp"
 #include "../modules/sync/producer_consumer.hpp"
 #include "../modules/sync/philosophers.hpp"
+#include "../modules/mem/heap.hpp"
 
 // ====== utilidades CLI (ANSI colores y helpers) ======
 namespace ansi
@@ -41,7 +42,7 @@ static vector<string> split(const string &line)
         out.push_back(tok);
     return out;
 }
-static vector<int> parse_ints(const vector<string> &v)
+static vector<int> parse_ints(std::span<string> &v)
 {
     vector<int> out;
     out.reserve(v.size());
@@ -62,11 +63,11 @@ static void mem_view_colored(const os::mem::PagingStats &s)
     for (int p : s.ref_string)
         cout << p << " ";
     cout << "\n";
-    cout << "Frames(init)=" << s.frames
+    cout << "Marcos=" << s.frames
          << "  Pasos=" << s.steps
-         << "  Hits=" << s.hits
-         << "  Faults=" << s.faults
-         << "  HitRate=" << fixed << setprecision(2)
+         << "  Aciertos=" << s.hits
+         << "  Fallos=" << s.faults
+         << "  TasaAciertos=" << fixed << setprecision(2)
          << (s.steps ? (100.0 * s.hits / s.steps) : 0.0) << "%\n";
 
     // Tabla con colores: verde si hit en ese paso; rojo si fallo.
@@ -100,7 +101,7 @@ static void mem_view_colored(const os::mem::PagingStats &s)
         cout << "FC | ";
         for (int t = 0; t < s.steps; ++t)
             cout << setw(3) << s.frames_per_step[t] << ' ';
-        cout << "(frames por paso)\n";
+        cout << "(marcos por paso)\n";
     }
 }
 
@@ -134,7 +135,7 @@ static void disk_view_headline(const os::disk::DiskStats &st, int min_cyl, int m
     };
     string line(width, '-');
     line[mapx(last)] = '|';
-    cout << gray << line << reset << "  (" << blue << "head@" << last << reset << ")\n";
+    cout << gray << line << reset << "  (" << blue << "cabezal@" << last << reset << ")\n";
 
     // trayectoria resumida
     cout << "Trayectoria: ";
@@ -152,49 +153,65 @@ static void print_help()
 {
     using namespace ansi;
     cout << bold << "Comandos disponibles" << reset << R"(
-# Procesos (ProcessManager, interrupciones)
-  proc create <name> <burst> <arrival>
-  proc suspend <pid>
-  proc resume  <pid>
-  proc block   <pid> <ticks>
-  proc term    <pid>
-  proc run     <ticks>
-  proc table
-  proc queues
+# ===================== AYUDA (ES) =====================
 
-# Planificador (SJF/RR)
-  sched sjf  <id,arrival,burst>...         # ej: sched sjf 1,0,8 2,1,4 3,2,9 4,3,5
-  sched rr   <quantum> <id,arrival,burst>  # ej: sched rr 2 1,0,5 2,1,3 3,2,8 4,3,6
+# Procesos (Administrador de procesos e interrupciones)
+  proc crear     <nombre> <rafaga> [llegada=0]
+  proc suspender <pid>
+  proc reanudar  <pid>
+  proc bloquear  <pid> <ticks>
+  proc terminar  <pid>
+  proc run       <ticks>
+  proc tabla
+  proc colas
 
-# Memoria (FIFO/LRU/PFF)
-  mem fifo <frames> <seq...>
-  mem lru  <frames> <seq...>
-  mem pff  <frames_init> <frames_max> <win> <thresh> <seq...>
-  mem csv  <policy:fifo|lru|pff> <outprefix> <args... como arriba>
+# Planificador (SJF / Round Robin)
+  sched sjf  <id,llegada,rafaga> ...
+    # ej: sched sjf  1,0,8  2,1,4  3,2,9  4,3,5
 
-# Asignación de marcos (por proceso, reemplazo local)
-  alloc equal <total_frames> <pid:[refs...]>...
-  alloc prop  <total_frames> <pid:[refs...]>...
+  sched rr   <quantum> <id,llegada,rafaga> ...
+    # ej: sched rr  2  1,0,5  2,1,3  3,2,8  4,3,6
 
-# Disco (FCFS/SSTF)
-  disk fcfs <head_start> <id,arrival,service,cylinder>...
-  disk sstf <head_start> <id,arrival,service,cylinder>...
-  disk csv  <algo:fcfs|sstf> <out.csv> <head_start> <...igual arriba>
+# Memoria (FIFO / LRU / PFF)
+  mem fifo <marcos> <secuencia_de_paginas ...>
+  mem lru  <marcos> <secuencia_de_paginas ...>
+  mem pff  <marcos_iniciales> <marcos_maximos> <ventana> <umbral> <secuencia_de_paginas ...>
+  mem csv  <politica:fifo|lru|pff> <nombre_salida> <args... como arriba>
+
+# Asignación de marcos (por proceso; reemplazo local)
+  alloc igual <marcos_totales> <pid:[refs...]> ...
+  alloc prop  <marcos_totales> <pid:[refs...]> ...
+
+# Disco (FCFS / SSTF)
+  disk fcfs <cabezal_inicial> <id,llegada,servicio,cilindro> ...
+  disk sstf <cabezal_inicial> <id,llegada,servicio,cilindro> ...
+  disk csv  <fcfs|sstf> <salida.csv> <cabezal_inicial> <...igual arriba>
 
 # Sincronización (Productor–Consumidor)
-  sync pc start <prod> <cons> <cap> [prod_ms] [cons_ms] [--quiet]
+  sync pc start <productores> <consumidores> <capacidad> [prod_ms] [cons_ms] [--silencio|--quiet]
   sync pc stat
   sync pc stop
 
 # Sincronización (Filósofos comensales)
-  sync ph start <n_filosofos> [think_ms] [eat_ms] [--quiet]
+  sync ph start <n_filosofos> [pensar_ms] [comer_ms] [--silencio]
   sync ph stat
   sync ph stop
 
+# Heap (Asignador Buddy)
+  heap buddy init  <tam_total_bytes> <bloque_min_bytes>
+  heap buddy alloc <nbytes>
+  heap buddy free  <offset>
+  heap buddy stat
+  heap buddy view
+  heap buddy csv   <prefijo_salida>  # genera <prefijo>_events.csv y <prefijo>_freelist.csv
+
 
 # Otros
+  printer demo [N]  
+  
   help
-  exit/quit
+  exit | quit
+
 )" << "\n";
 }
 
@@ -218,8 +235,10 @@ int main()
     // Estado “vivo” del kernel simulado
     cpu::ProcessManager pm;
 
-    cout << ansi::bold << "Kernel-Sim CLI" << ansi::reset
-         << "\nescribe 'help' para ayuda\n";
+    os::mem::BuddyAllocator *buddy = nullptr; // puntero para permitir re-init
+
+    cout << ansi::bold << "Consola de Kernel-Sim" << ansi::reset
+         << "\nEscribe 'help' para ver ayuda.\n";
 
     string line;
     cout << "os> " << flush;
@@ -282,11 +301,11 @@ int main()
                 }
                 string sub = t[1];
 
-                if (sub == "create")
+                if (sub == "crear")
                 {
                     if (t.size() != 5)
                     {
-                        print_err("uso: proc create <name> <burst> <arrival>");
+                        print_err("uso: proc crear <nombre> <rafaga> <llegada>");
                     }
                     else
                     {
@@ -294,36 +313,36 @@ int main()
                         int burst = stoi(t[3]);
                         int arr = stoi(t[4]);
                         int pid = pm.create_process(name, burst, arr);
-                        print_ok("pid=" + to_string(pid) + " creado");
+                        print_ok("proceso creado con pid=" + to_string(pid));
                     }
                 }
-                else if (sub == "suspend")
+                else if (sub == "suspender")
                 {
                     if (t.size() != 3)
-                        print_err("uso: proc suspend <pid>");
+                        print_err("uso: proc suspender <pid>");
                     else
-                        print_ok(pm.suspend(stoi(t[2])) ? "suspendido" : "no se pudo");
+                        print_ok(pm.suspend(stoi(t[2])) ? "proceso suspendido" : "no se pudo suspender el proceso");
                 }
-                else if (sub == "resume")
+                else if (sub == "reanudar")
                 {
                     if (t.size() != 3)
-                        print_err("uso: proc resume <pid>");
+                        print_err("uso: proc reanudar <pid>");
                     else
-                        print_ok(pm.resume(stoi(t[2])) ? "reanudado" : "no se pudo");
+                        print_ok(pm.resume(stoi(t[2])) ? "proceso reanudado" : "no se pudo reanudar el proceso");
                 }
-                else if (sub == "term")
+                else if (sub == "terminar")
                 {
                     if (t.size() != 3)
-                        print_err("uso: proc term <pid>");
+                        print_err("uso: proc terminar <pid>");
                     else
-                        print_ok(pm.terminate(stoi(t[2])) ? "terminado" : "no se pudo");
+                        print_ok(pm.terminate(stoi(t[2])) ? "proceso terminado" : "no se pudo terminar el proceso");
                 }
-                else if (sub == "block")
+                else if (sub == "bloquear")
                 {
                     if (t.size() != 4)
-                        print_err("uso: proc block <pid> <ticks>");
+                        print_err("uso: proc bloquear <pid> <ticks>");
                     else
-                        print_ok(pm.block_for(stoi(t[2]), stoi(t[3])) ? "bloqueado" : "no se pudo");
+                        print_ok(pm.block_for(stoi(t[2]), stoi(t[3])) ? "proceso bloqueado" : "no se pudo bloquear el proceso");
                 }
                 else if (sub == "run")
                 {
@@ -332,14 +351,14 @@ int main()
                     else
                     {
                         pm.run(stoi(t[2]));
-                        print_ok("now=" + to_string(pm.now()));
+                        print_ok("tiempo_actual=" + to_string(pm.now()));
                     }
                 }
-                else if (sub == "table")
+                else if (sub == "tabla")
                 {
                     pm.print_table();
                 }
-                else if (sub == "queues")
+                else if (sub == "colas")
                 {
                     pm.print_queues();
                 }
@@ -376,7 +395,7 @@ int main()
                         int id, arrival, burst;
                         if (!(iss >> id >> arrival >> burst))
                         {
-                            print_err("Entrada inválida: usa id,arrival,burst (ej: 1,0,8)");
+                            print_err("Entrada inválida: usa id,llegada,rafaga (ej: 1,0,8)");
                             v.clear();
                             break;
                         }
@@ -386,7 +405,7 @@ int main()
                         {
                             std::ostringstream msg;
                             msg << "Datos inválidos para proceso '" << s
-                                << "'. Reglas: id>0, llegada>=0, duracion>0.";
+                                << "'. Reglas: id>0, llegada>=0, rafaga>0.";
                             print_err(msg.str());
                             v.clear();
                             break;
@@ -403,7 +422,7 @@ int main()
                     {
                         auto stats = cpu::CPUScheduler::sjf_non_preemptive(v);
                         cpu::CPUScheduler::print_table(v, stats);
-                        std::cout << "Fairness (Jain): " << std::fixed << std::setprecision(4)
+                        std::cout << "Índice de fairness (Jain): " << std::fixed << std::setprecision(4)
                                   << stats.jain_fairness << "\n";
                     }
                 }
@@ -412,7 +431,7 @@ int main()
                 {
                     if (t.size() < 4)
                     {
-                        print_err("uso: sched rr <quantum> <id,arr,burst>...");
+                        print_err("uso: sched rr <quantum> <id,llegada,rafaga>...");
                         std::cout << "os> ";
                         continue;
                     }
@@ -443,7 +462,7 @@ int main()
                         int id, arrival, burst;
                         if (!(iss >> id >> arrival >> burst))
                         {
-                            print_err("Entrada inválida: usa id,arr,burst (ej: 2,0,3)");
+                            print_err("Entrada inválida: usa id,llegada,rafaga (ej: 2,0,3)");
                             v.clear();
                             break;
                         }
@@ -451,7 +470,7 @@ int main()
                         {
                             std::ostringstream msg;
                             msg << "Datos inválidos para proceso '" << s
-                                << "'. Reglas: id>0, llegada>=0, duracion>0.";
+                                << "'. Reglas: id>0, llegada>=0, rafaga>0.";
                             print_err(msg.str());
                             v.clear();
                             break;
@@ -467,7 +486,7 @@ int main()
                     {
                         auto stats = cpu::CPUScheduler::round_robin(v, quantum);
                         cpu::CPUScheduler::print_table(v, stats);
-                        std::cout << "Fairness (Jain): " << std::fixed << std::setprecision(4)
+                        std::cout << "Índice de justicia (Jain): " << std::fixed << std::setprecision(4)
                                   << stats.jain_fairness << "\n";
                     }
                 }
@@ -505,7 +524,7 @@ int main()
                 {
                     if (t.size() < 7)
                     {
-                        print_err("uso: mem pff <frames_init> <frames_max> <win> <thresh> <seq...>");
+                        print_err("uso: mem pff <marcos_init> <marcos_max> <ventana> <umbral> <seq...>");
                         cout << "os> ";
                         continue;
                     }
@@ -524,7 +543,7 @@ int main()
                 {
                     if (t.size() < 5)
                     {
-                        print_err("uso: mem csv <fifo|lru|pff> <outprefix> <args...>");
+                        print_err("uso: mem csv <fifo|lru|pff> <prefijo_salida> <args...>");
                         cout << "os> ";
                         continue;
                     }
@@ -533,7 +552,7 @@ int main()
                     {
                         if (t.size() < 6)
                         {
-                            print_err("uso: mem csv fifo|lru <outprefix> <frames> <seq...>");
+                            print_err("uso: mem csv fifo|lru <prefijo_salida> <marcos> <seq...>");
                             cout << "os> ";
                             continue;
                         }
@@ -544,13 +563,13 @@ int main()
                         auto policy = (pol == "fifo" ? mem::Policy::FIFO : mem::Policy::LRU);
                         auto st = mem::PagerSimulator::run(seq, frames, policy);
                         bool ok = mem::PagerSimulator::export_csv(st, outp + "_timeline.csv", outp + "_events.csv");
-                        ok ? print_ok("CSV exportado") : print_err("no se pudo exportar CSV");
+                        ok ? print_ok("CSV exportado correctamente") : print_err("no se pudo exportar CSV");
                     }
                     else if (pol == "pff")
                     {
                         if (t.size() < 8)
                         {
-                            print_err("uso: mem csv pff <outprefix> <frames_init> <frames_max> <win> <thresh> <seq...>");
+                            print_err("uso: mem csv pff <prefijo_salida> <marcos_init> <marcos_max> <ventana> <umbral> <seq...>");
                             cout << "os> ";
                             continue;
                         }
@@ -564,7 +583,7 @@ int main()
                             seq.push_back(stoi(t[i]));
                         auto st = mem::PagerSimulator::run_pff(seq, p);
                         bool ok = mem::PagerSimulator::export_csv(st, outp + "_timeline.csv", outp + "_events.csv");
-                        ok ? print_ok("CSV exportado") : print_err("no se pudo exportar CSV");
+                        ok ? print_ok("CSV exportado correctamente") : print_err("no se pudo exportar CSV");
                     }
                     else
                     {
@@ -584,7 +603,7 @@ int main()
             {
                 if (t.size() < 4)
                 {
-                    print_err("uso: alloc <equal|prop> <total_frames> <pid:[refs...]>...");
+                    print_err("uso: alloc <equal|prop> <marcos_totales> <pid:[refs...]>...");
                     cout << "os> ";
                     continue;
                 }
@@ -598,7 +617,7 @@ int main()
                     auto pos = s.find(':');
                     if (pos == string::npos)
                     {
-                        print_err("formato pid:[refs]");
+                        print_err("formato esperado: pid:[refs]");
                         continue;
                     }
                     int pid = stoi(s.substr(0, pos));
@@ -617,6 +636,123 @@ int main()
                 auto policy = (kind == "equal" ? mem::FrameAllocPolicy::EQUAL : mem::FrameAllocPolicy::PROPORTIONAL);
                 auto stats = mem::FrameAllocator::simulate(procs, total_frames, policy, mem::Policy::LRU);
                 mem::FrameAllocator::print_report(procs, stats);
+                cout << "os> ";
+                continue;
+            }
+
+            if (t[0] == "heap")
+            {
+                if (t.size() < 2)
+                {
+                    print_err("uso: heap buddy <...>");
+                    cout << "os> ";
+                    continue;
+                }
+                if (t[1] != "buddy")
+                {
+                    print_err("solo se soporta 'buddy'");
+                    cout << "os> ";
+                    continue;
+                }
+
+                if (t.size() >= 3 && t[2] == "init")
+                {
+                    if (t.size() != 5)
+                    {
+                        print_err("uso: heap buddy init <total> <min>");
+                        cout << "os> ";
+                        continue;
+                    }
+                    size_t total = stoull(t[3]), minb = stoull(t[4]);
+                    delete buddy;
+                    buddy = nullptr;
+                    try
+                    {
+                        buddy = new os::mem::BuddyAllocator(total, minb);
+                        print_ok("Asignador Buddy inicializado");
+                    }
+                    catch (const std::exception &e)
+                    {
+                        print_err(string("init falló: ") + e.what());
+                    }
+                    cout << "os> ";
+                    continue;
+                }
+
+                if (!buddy)
+                {
+                    print_err("primero inicializa: heap buddy init <total> <min>");
+                    cout << "os> ";
+                    continue;
+                }
+
+                if (t.size() >= 3 && t[2] == "alloc")
+                {
+                    if (t.size() != 4)
+                    {
+                        print_err("uso: heap buddy alloc <nbytes>");
+                        cout << "os> ";
+                        continue;
+                    }
+                    int off = buddy->allocate(stoi(t[3]));
+                    if (off < 0)
+                        print_err("alloc falló");
+                    else
+                        print_ok("asignado en offset=" + to_string(off));
+                    cout << "os> ";
+                    continue;
+                }
+
+                if (t.size() >= 3 && t[2] == "free")
+                {
+                    if (t.size() != 4)
+                    {
+                        print_err("uso: heap buddy free <offset>");
+                        cout << "os> ";
+                        continue;
+                    }
+                    buddy->free_block(stoi(t[3]));
+                    print_ok("bloque liberado");
+                    cout << "os> ";
+                    continue;
+                }
+
+                if (t.size() >= 3 && t[2] == "stat")
+                {
+                    auto s = buddy->stats();
+                    cout << "total=" << s.total << " min=" << s.min_block
+                         << " usado=" << s.used_bytes << " libre=" << s.free_bytes
+                         << " mayor_libre=" << s.largest_free_block
+                         << " frag_interna=" << s.internal_frag_bytes
+                         << " allocs=" << s.alloc_count << " frees=" << s.free_count
+                         << " fallas=" << s.fail_count << " splits=" << s.splits << " merges=" << s.merges << "\n";
+                    cout << "os> ";
+                    continue;
+                }
+
+                if (t.size() >= 3 && t[2] == "view")
+                {
+                    buddy->print_state(std::cout);
+                    cout << "os> ";
+                    continue;
+                }
+
+                if (t.size() >= 3 && t[2] == "csv")
+                {
+                    if (t.size() != 4)
+                    {
+                        print_err("uso: heap buddy csv <prefijo_salida>");
+                        cout << "os> ";
+                        continue;
+                    }
+                    string pfx = t[3];
+                    bool ok = buddy->export_csv(pfx + "_events.csv", pfx + "_freelist.csv");
+                    ok ? print_ok("CSV exportado correctamente") : print_err("no se pudo exportar CSV");
+                    cout << "os> ";
+                    continue;
+                }
+
+                print_err("subcomando de heap buddy desconocido");
                 cout << "os> ";
                 continue;
             }
@@ -652,7 +788,7 @@ int main()
                 {
                     if (t.size() < 4)
                     {
-                        print_err("uso: disk <fcfs|sstf> <head_start> <id,arr,svc,cyl>...");
+                        print_err("uso: disk <fcfs|sstf> <cabezal_inicial> <id,llegada,servicio,cilindro>...");
                         cout << "os> ";
                         continue;
                     }
@@ -703,7 +839,7 @@ int main()
                 {
                     if (t.size() < 6)
                     {
-                        print_err("uso: disk csv <fcfs|sstf> <outfile.csv> <head_start> <reqs...>");
+                        print_err("uso: disk csv <fcfs|sstf> <salida.csv> <cabezal_inicial> <reqs...>");
                         cout << "os> ";
                         continue;
                     }
@@ -718,7 +854,7 @@ int main()
                     else
                         stats = disk::DiskScheduler::sstf(reqs, h0);
                     bool ok = disk::DiskScheduler::export_head_csv(stats, outcsv);
-                    ok ? print_ok("CSV exportado") : print_err("no se pudo exportar");
+                    ok ? print_ok("CSV exportado correctamente") : print_err("no se pudo exportar CSV");
                 }
                 else
                 {
@@ -733,112 +869,113 @@ int main()
             {
                 if (t.size() < 2)
                 {
-                    print_err("uso: sync pc <start|stat|stop> ...");
+                    print_err("uso: sync pc <pc|ph> <start|stat|stop> ...");
                     std::cout << "os> ";
                     continue;
                 }
-                if (t[1] != "pc")
+                if (t[1] == "pc")
                 {
-                    print_err("solo 'pc' está soportado por ahora");
-                    std::cout << "os> ";
-                    continue;
-                }
-                // subcomandos: start / stat / stop
-                if (t.size() >= 3 && t[2] == "start")
-                {
-                    if (t.size() < 6)
+                    // subcomandos: start / stat / stop
+                    if (t.size() >= 3 && t[2] == "start")
                     {
-                        print_err("uso: sync pc start <prod> <cons> <cap> [prod_ms] [cons_ms] [--quiet]");
+                        if (t.size() < 6)
+                        {
+                            print_err("uso: sync <pc|ph> start <prod> <cons> <cap> [prod_ms] [cons_ms] [--silencio]");
+                            std::cout << "os> ";
+                            continue;
+                        }
+                        std::size_t prod = std::stoul(t[3]);
+                        std::size_t cons = std::stoul(t[4]);
+                        std::size_t cap = std::stoul(t[5]);
+
+                        int prod_ms = (t.size() >= 7 ? std::stoi(t[6]) : 100);
+                        int cons_ms = (t.size() >= 8 ? std::stoi(t[7]) : 150);
+                        bool verbose = true;
+                        for (size_t i = 6; i < t.size(); ++i)
+                        {
+                            if (t[i] == "--silencio")
+                            {
+                                verbose = false;
+                                break;
+                            }
+                        }
+
+                        pc.start(prod, cons, cap, os::sync::ms(prod_ms), os::sync::ms(cons_ms), verbose);
+                        print_ok("productor–consumidor iniciado");
                         std::cout << "os> ";
                         continue;
                     }
-                    std::size_t prod = std::stoul(t[3]);
-                    std::size_t cons = std::stoul(t[4]);
-                    std::size_t cap = std::stoul(t[5]);
-
-                    // opcionales
-                    int prod_ms = (t.size() >= 7 ? std::stoi(t[6]) : 100);
-                    int cons_ms = (t.size() >= 8 ? std::stoi(t[7]) : 150);
-                    bool verbose = true;
-                    for (size_t i = 6; i < t.size(); ++i)
+                    if (t.size() >= 3 && t[2] == "stat")
                     {
-                        if (t[i] == "--quiet")
-                        {
-                            verbose = false;
-                            break;
-                        }
-                    }
-
-                    pc.start(prod, cons, cap, os::sync::ms(prod_ms), os::sync::ms(cons_ms), verbose);
-                    print_ok("productor–consumidor iniciado");
-                    std::cout << "os> ";
-                    continue;
-                }
-                if (t.size() >= 3 && t[2] == "stat")
-                {
-                    auto s = pc.stats();
-                    std::cout << "produced=" << s.produced
-                              << "  consumed=" << s.consumed
-                              << "  max_buffer=" << s.max_buffer
-                              << "  last_item=" << s.last_item << "\n";
-                    std::cout << "running=" << (pc.running() ? "yes" : "no") << "\n";
-                    std::cout << "os> ";
-                    continue;
-                }
-                if (t.size() >= 3 && t[2] == "stop")
-                {
-                    pc.stop();
-                    print_ok("productor–consumidor detenido");
-                    std::cout << "os> ";
-                    continue;
-                }
-                print_err("uso: sync pc <start|stat|stop>");
-                std::cout << "os> ";
-                continue;
-            }
-
-            // ==== Sincronización: filósofos comensales ====
-            if (t[0] == "sync" && t.size() >= 2 && t[1] == "ph")
-            {
-                if (t.size() >= 3 && t[2] == "start")
-                {
-                    if (t.size() < 4)
-                    {
-                        print_err("uso: sync ph start <n_filosofos> [think_ms] [eat_ms] [--quiet]");
+                        auto s = pc.stats();
+                        std::cout << "producido=" << s.produced
+                                  << "  consumido=" << s.consumed
+                                  << "  max_buffer=" << s.max_buffer
+                                  << "  ultimo_item=" << s.last_item << "\n";
+                        std::cout << "ejecutando=" << (pc.running() ? "sí" : "no") << "\n";
                         std::cout << "os> ";
                         continue;
                     }
-                    std::size_t n = std::stoul(t[3]);
-                    int think_ms = (t.size() >= 5 ? std::stoi(t[4]) : 500);
-                    int eat_ms = (t.size() >= 6 ? std::stoi(t[5]) : 1000);
-                    bool verbose = true;
-                    for (size_t i = 4; i < t.size(); ++i)
-                        if (t[i] == "--quiet")
-                        {
-                            verbose = false;
-                            break;
-                        }
+                    if (t.size() >= 3 && t[2] == "stop")
+                    {
+                        pc.stop();
+                        print_ok("productor–consumidor detenido");
+                        std::cout << "os> ";
+                        continue;
+                    }
+                    print_err("uso: sync pc <start|stat|stop>");
+                    std::cout << "os> ";
+                    continue;
+                }
 
-                    ph.start(n, os::sync::ms(think_ms), os::sync::ms(eat_ms), verbose);
-                    print_ok("filósofos iniciados");
-                    std::cout << "os> ";
-                    continue;
-                }
-                if (t.size() >= 3 && t[2] == "stat")
+                // ==== Sincronización: filósofos comensales ====
+
+                if (t[1] == "ph")
                 {
-                    std::cout << "running=" << (ph.running() ? "yes" : "no")
-                              << "  n=" << ph.size() << "\n";
+                    if (t.size() >= 3 && t[2] == "start")
+                    {
+                        if (t.size() < 4)
+                        {
+                            print_err("uso: sync ph start <n_filosofos> [pensar_ms] [comer_ms] [--silencio]");
+                            std::cout << "os> ";
+                            continue;
+                        }
+                        std::size_t n = std::stoul(t[3]);
+                        int think_ms = (t.size() >= 5 ? std::stoi(t[4]) : 500);
+                        int eat_ms = (t.size() >= 6 ? std::stoi(t[5]) : 1000);
+                        bool verbose = true;
+                        for (size_t i = 4; i < t.size(); ++i)
+                            if (t[i] == "--silencio")
+                            {
+                                verbose = false;
+                                break;
+                            }
+                        ph.start(n, os::sync::ms(think_ms), os::sync::ms(eat_ms), verbose);
+                        print_ok("filósofos iniciados");
+                        std::cout << "os> ";
+                        continue;
+                    }
+                    if (t.size() >= 3 && t[2] == "stat")
+                    {
+                        std::cout << "ejecutando=" << (ph.running() ? "sí" : "no")
+                                  << "  n=" << ph.size() << "\n";
+                        std::cout << "os> ";
+                        continue;
+                    }
+                    if (t.size() >= 3 && t[2] == "stop")
+                    {
+                        ph.stop();
+                        print_ok("filósofos detenidos");
+                        std::cout << "os> ";
+                        continue;
+                    }
+                    print_err("uso: sync ph <start|stat|stop>");
                     std::cout << "os> ";
                     continue;
                 }
-                if (t.size() >= 3 && t[2] == "stop")
-                {
-                    ph.stop();
-                    print_ok("filósofos detenidos");
-                    std::cout << "os> ";
-                    continue;
-                }
-                print_err("uso: sync ph <start|stat|stop>");
+
+                // subcomando desconocido
+                print_err("subcomando sync desconocido: usa 'pc' o 'ph'");
                 std::cout << "os> ";
                 continue;
             }

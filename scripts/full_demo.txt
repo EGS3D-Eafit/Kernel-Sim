@@ -1,0 +1,63 @@
+# =====================================================
+# SCRIPT INTEGRAL DE PRUEBAS — Kernel-Sim (todo en uno)
+# Copia/pega cada SECCIÓN por separado en la consola.
+# =====================================================
+
+# [1] PROCESOS + TABLAS/ COLAS + RUN (interrupciones)
+proc crear web 6 0
+proc crear db  10 1
+proc crear io  4 3
+proc tabla
+proc colas
+proc bloquear 2 3
+proc tabla
+proc colas
+proc reanudar 2
+proc run 8
+proc tabla
+proc colas
+
+# [2] PLANIFICADOR — SJF (entrada rápida)
+sched sjf  1,0,6  2,1,3  3,2,8  4,4,2  5,5,5
+
+# [3] PLANIFICADOR — RR (quantum=3)
+sched rr 3  1,0,9  2,2,4  3,3,5  4,5,2
+
+# [4] MEMORIA — FIFO/LRU/PFF (vista y CSV)
+mem fifo 3  7 0 1 2 0 3 0 4 2 3 0 3 2
+mem csv fifo mem_fifo3_demo   3  7 0 1 2 0 3 0 4 2 3 0 3 2
+mem lru 3   7 0 1 2 0 3 0 4 2 3 0 3 2
+mem csv lru mem_lru3_demo    3  7 0 1 2 0 3 0 4 2 3 0 3 2
+mem pff 3 6 6 2   1 2 3 4 1 2 5 1 2 3 4 5  1 2 3 4 5 6 7  1 2 3 4 5 6 7
+mem csv pff mem_pff_demo     3 6 6 2   1 2 3 4 1 2 5 1 2 3 4 5  1 2 3 4 5 6 7  1 2 3 4 5 6 7
+
+# [5] ASIGNACIÓN DE MARCOS — igual y proporcional (local LRU)
+alloc igual 6    101:[1,2,3,2,1,4,1,2]   102:[3,3,2,1,2,3,4,3]
+alloc prop  7    201:[0,1,2,3,0,1,2,3]   202:[7,7,6,5,6,7]   203:[2,4,6,8,2,4,6]
+
+# [6] DISCO — FCFS y SSTF (trayectoria y CSV)
+disk fcfs 50   P1,0,4,95  P2,0,5,180  P3,2,3,34  P4,4,4,119  P5,5,5,11  P6,6,4,123  P7,7,2,62  P8,8,3,64
+disk sstf 50   P1,0,4,95  P2,0,5,180  P3,2,3,34  P4,4,4,119  P5,5,5,11  P6,6,4,123  P7,7,2,62  P8,8,3,64
+disk csv fcfs  disco_fcfs_demo.csv 50   P1,0,4,95  P2,0,5,180  P3,2,3,34  P4,4,4,119  P5,5,5,11  P6,6,4,123  P7,7,2,62  P8,8,3,64
+disk csv sstf  disco_sstf_demo.csv 50   P1,0,4,95  P2,0,5,180  P3,2,3,34  P4,4,4,119  P5,5,5,11  P6,6,4,123  P7,7,2,62  P8,8,3,64
+
+# [7] SINCRONIZACIÓN — Productor-Consumidor
+sync pc start 2 1 8  40 70 --silencio
+sync pc stat
+sync pc stop
+
+# [8] SINCRONIZACIÓN — Filósofos comensales
+sync ph start 5  120 80 --silencio
+sync ph stat
+sync ph stop
+
+# [9] HEAP — Buddy Allocator (init/alloc/free/stat/view/csv)
+heap buddy init 65536 64
+heap buddy alloc 1000
+heap buddy alloc 8192
+heap buddy stat
+heap buddy view
+heap buddy csv heap_demo
+
+# [10] IMPRESORA — demonstracion de recurso compartido
+printer demo 6
