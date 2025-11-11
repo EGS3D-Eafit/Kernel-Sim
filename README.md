@@ -27,7 +27,9 @@ Simular el comportamiento básico de un núcleo de sistema operativo mediante la
 ---
 
 ## Estructura del Proyecto
-<img width="658" height="319" alt="image" src="https://github.com/user-attachments/assets/b7881db9-044d-4ef5-bd77-cc089a58db51" />
+<!-- <img width="658" height="319" alt="image" src="https://github.com/user-attachments/assets/b7881db9-044d-4ef5-bd77-cc089a58db51" /> -->
+<img width="308" height="859" alt="image" src="https://github.com/user-attachments/assets/ec89dce7-286e-413b-b5cb-210e16a2d70a" />
+
 
 ## Stack Tecnológico
 
