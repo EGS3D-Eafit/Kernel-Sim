@@ -29,7 +29,6 @@ mem csv fifo mem_fifo3_demo   3  7 0 1 2 0 3 0 4 2 3 0 3 2
 mem lru 3   7 0 1 2 0 3 0 4 2 3 0 3 2
 mem csv lru mem_lru3_demo    3  7 0 1 2 0 3 0 4 2 3 0 3 2
 mem pff 3 6 6 2   1 2 3 4 1 2 5 1 2 3 4 5  1 2 3 4 5 6 7  1 2 3 4 5 6 7
-mem csv pff mem_pff_demo     3 6 6 2   1 2 3 4 1 2 5 1 2 3 4 5  1 2 3 4 5 6 7  1 2 3 4 5 6 7
 
 # [5] ASIGNACIÓN DE MARCOS — igual y proporcional (local LRU)
 alloc igual 6    101:[1,2,3,2,1,4,1,2]   102:[3,3,2,1,2,3,4,3]
@@ -57,7 +56,6 @@ heap buddy alloc 1000
 heap buddy alloc 8192
 heap buddy stat
 heap buddy view
-heap buddy csv heap_demo
 
 # [10] IMPRESORA — demonstracion de recurso compartido
 printer demo 6
