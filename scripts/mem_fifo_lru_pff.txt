@@ -1,7 +1,7 @@
 # MEMORIA — FIFO, LRU y PFF (trazas con marcos y export CSV)
 
 # Sintaxis soportada por la CLI:
-#   mem csv  <policy:fifo|lru|pff> <outprefix> <seq...>
+#   mem csv  <policy:fifo|lru> <outprefix> <seq...>
 
 
 # FIFO con 3 marcos
@@ -19,4 +19,3 @@ mem csv lru mem_lru_3   3  7 0 1 2 0 3 0 4 2 3 0 3 2
 # PFF — ajuste dinámico de marcos (frames init=3, max=6, win=6, thresh=2)
 #   mem pff  <frames_init> <frames_max> <win> <thresh> <seq...>
 mem pff 3 6 6 2   1 2 3 4 1 2 5 1 2 3 4 5  1 2 3 4 5 6 7  1 2 3 4 5 6 7
-mem csv pff mem_pff_3_6  3 6 6 2   1 2 3 4 1 2 5 1 2 3 4 5  1 2 3 4 5 6 7  1 2 3 4 5 6 7
