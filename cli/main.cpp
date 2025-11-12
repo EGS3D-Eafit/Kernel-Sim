@@ -176,7 +176,7 @@ static void print_help()
   mem fifo <marcos> <secuencia_de_paginas ...>
   mem lru  <marcos> <secuencia_de_paginas ...>
   mem pff  <marcos_iniciales> <marcos_maximos> <ventana> <umbral> <secuencia_de_paginas ...>
-  mem csv  <politica:fifo|lru|pff> <nombre_salida> <args... como arriba>
+  mem csv  <politica:fifo|lru> <nombre_salida> <args... como arriba>
 
 # Asignación de marcos (por proceso; reemplazo local)
   alloc igual <marcos_totales> <pid:[refs...]> ...
@@ -203,8 +203,6 @@ static void print_help()
   heap buddy free  <offset>
   heap buddy stat
   heap buddy view
-  heap buddy csv   <prefijo_salida>  # genera <prefijo>_events.csv y <prefijo>_freelist.csv
-
 
 # Otros
   printer demo [N]  
@@ -543,7 +541,7 @@ int main()
                 {
                     if (t.size() < 5)
                     {
-                        print_err("uso: mem csv <fifo|lru|pff> <prefijo_salida> <args...>");
+                        print_err("uso: mem csv <fifo|lru> <prefijo_salida> <args...>");
                         cout << "os> ";
                         continue;
                     }
@@ -562,26 +560,6 @@ int main()
                             seq.push_back(stoi(t[i]));
                         auto policy = (pol == "fifo" ? mem::Policy::FIFO : mem::Policy::LRU);
                         auto st = mem::PagerSimulator::run(seq, frames, policy);
-                        bool ok = mem::PagerSimulator::export_csv(st, outp + "_timeline.csv", outp + "_events.csv");
-                        ok ? print_ok("CSV exportado correctamente") : print_err("no se pudo exportar CSV");
-                    }
-                    else if (pol == "pff")
-                    {
-                        if (t.size() < 8)
-                        {
-                            print_err("uso: mem csv pff <prefijo_salida> <marcos_init> <marcos_max> <ventana> <umbral> <seq...>");
-                            cout << "os> ";
-                            continue;
-                        }
-                        mem::PFFParams p;
-                        p.frames_init = stoi(t[4]);
-                        p.frames_max = stoi(t[5]);
-                        p.window_size = stoi(t[6]);
-                        p.fault_thresh = stoi(t[7]);
-                        vector<int> seq;
-                        for (size_t i = 8; i < t.size(); ++i)
-                            seq.push_back(stoi(t[i]));
-                        auto st = mem::PagerSimulator::run_pff(seq, p);
                         bool ok = mem::PagerSimulator::export_csv(st, outp + "_timeline.csv", outp + "_events.csv");
                         ok ? print_ok("CSV exportado correctamente") : print_err("no se pudo exportar CSV");
                     }
@@ -733,21 +711,6 @@ int main()
                 if (t.size() >= 3 && t[2] == "view")
                 {
                     buddy->print_state(std::cout);
-                    cout << "os> ";
-                    continue;
-                }
-
-                if (t.size() >= 3 && t[2] == "csv")
-                {
-                    if (t.size() != 4)
-                    {
-                        print_err("uso: heap buddy csv <prefijo_salida>");
-                        cout << "os> ";
-                        continue;
-                    }
-                    string pfx = t[3];
-                    bool ok = buddy->export_csv(pfx + "_events.csv", pfx + "_freelist.csv");
-                    ok ? print_ok("CSV exportado correctamente") : print_err("no se pudo exportar CSV");
                     cout << "os> ";
                     continue;
                 }
